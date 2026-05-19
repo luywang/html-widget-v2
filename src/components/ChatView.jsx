@@ -602,9 +602,16 @@ export default function ChatView({
                   (figmaScenario === 'scenario3' && msg.id !== 8) ||
                   (figmaScenario !== 'scenario3' && msg.id !== 7)
                 )
-                // In Scenario 3, hide message 8 from Northwind Core chat since it's in the thread
-                if (figmaScenario === 'scenario3' && activeContact.id === 21 && msg.id === 8) {
-                  return null
+                // Hide specific messages from Northwind Core chat
+                if (activeContact.id === 21) {
+                  // In Scenario 3, hide message 8 since it's in the thread
+                  if (figmaScenario === 'scenario3' && msg.id === 8) {
+                    return null
+                  }
+                  // In all scenarios, hide message 9 (duplicate message)
+                  if (msg.id === 9) {
+                    return null
+                  }
                 }
                 return (
                   <MessageRow

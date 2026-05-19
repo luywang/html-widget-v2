@@ -95,7 +95,15 @@ function CollabStage({ link, onClose, scenario }) {
         <div className="collab-stage-right">
           <div className="collab-stage-chat-header">
             <Avatar contact={northwindCore} size={24} />
-            <span className="collab-stage-chat-name">{northwindCore.name}</span>
+            {scenario === 'scenario3' ? (
+              <div className="collab-stage-breadcrumb">
+                <span className="breadcrumb-segment">Threads</span>
+                <span className="breadcrumb-separator">›</span>
+                <span className="breadcrumb-segment breadcrumb-current">Design specs updated. Feedback?</span>
+              </div>
+            ) : (
+              <span className="collab-stage-chat-name">{northwindCore.name}</span>
+            )}
             <button
               type="button"
               className="collab-stage-close"

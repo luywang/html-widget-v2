@@ -10,8 +10,8 @@ import './App.css'
 
 export default function App() {
   const [activeView, setActiveView] = useState('chat') // 'chat' | 'activity'
-  const [activeChatId, setActiveChatId] = useState(1)
-  const [readChatIds, setReadChatIds] = useState(() => new Set([1]))
+  const [activeChatId, setActiveChatId] = useState(21)
+  const [readChatIds, setReadChatIds] = useState(() => new Set([21]))
   const [sessions, setSessions] = useState(initialSessions)
   const [dynamicSessionMessages, setDynamicSessionMessages] = useState({})
   // Activity feed: persist which events the user has opened so unread decorations clear.
