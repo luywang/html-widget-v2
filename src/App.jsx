@@ -25,7 +25,7 @@ export default function App() {
   // hides it for the current session. Swap to localStorage gating later if a
   // real first-run-only behavior is needed.
   const [showFre, setShowFre] = useState(true)
-  // Figma scenario selection: 'scenario1' = edit outside Teams, 'scenario2' = edit in Teams Collab Stage
+  // Figma scenario selection: 'scenario1' = edit outside Teams, 'scenario2' = edit in Teams Collab Stage, 'scenario3' = edit in Teams + Threaded chat
   const [figmaScenario, setFigmaScenario] = useState('scenario1')
 
   const dismissFre = useCallback(() => setShowFre(false), [])
@@ -140,8 +140,9 @@ export default function App() {
                 cursor: 'pointer'
               }}
             >
-              <option value="scenario1">Scenario 1: Edit Figma outside of Teams (most common in MCP apps)</option>
-              <option value="scenario2">Scenario 2: Edit Figma in Teams Collab Stage side-by-side</option>
+              <option value="scenario1">Scenario 1: Edit Figma outside of Teams</option>
+              <option value="scenario2">Scenario 2: Edit inside Teams + Collab stage</option>
+              <option value="scenario3">Scenario 3: Edit inside Teams + Threaded chat</option>
             </select>
           </div>
 
@@ -152,16 +153,22 @@ export default function App() {
             click "Edit in Figma" to open the design for editing.
           </p>
 
-          <h3 className="fre-section-title">Scenario 1: Edit Outside Teams</h3>
+          <h3 className="fre-section-title">Scenario 1: Edit Figma outside of Teams</h3>
           <p>
             Opens figma.com in a new browser tab. This is the most common pattern in MCP apps
             where external tools are accessed via browser windows.
           </p>
 
-          <h3 className="fre-section-title">Scenario 2: Edit in Collab Stage</h3>
+          <h3 className="fre-section-title">Scenario 2: Edit inside Teams + Collab stage</h3>
           <p>
             Opens Figma in Teams Collab Stage, allowing side-by-side editing within Teams.
             The Figma editor appears alongside the chat, keeping context visible.
+          </p>
+
+          <h3 className="fre-section-title">Scenario 3: Edit inside Teams + Threaded chat</h3>
+          <p>
+            Opens Figma in a threaded chat experience within Teams, combining editing
+            with conversation-focused collaboration.
           </p>
         </FreModal>
       )}

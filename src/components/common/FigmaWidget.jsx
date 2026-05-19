@@ -6,7 +6,7 @@ import { Avatar } from './index'
 
 function FigmaPreviewContent({ scenario, onEditClick }) {
   const handleEditClick = (e) => {
-    if (scenario === 'scenario2') {
+    if (scenario === 'scenario2' || scenario === 'scenario3') {
       e.preventDefault()
       if (onEditClick) onEditClick()
     }
@@ -35,10 +35,20 @@ function FigmaPreviewContent({ scenario, onEditClick }) {
   )
 }
 
-function CollabStage({ link, onClose }) {
+function CollabStage({ link, onClose, scenario }) {
   const NORTHWIND_CORE_ID = 21
   const northwindCore = contacts.find(c => c.id === NORTHWIND_CORE_ID)
-  const messages = messagesByContact[NORTHWIND_CORE_ID] || []
+  const allMessages = messagesByContact[NORTHWIND_CORE_ID] || []
+
+  // In Scenario 3, only show the thread for Sarah's Figma message
+  const messages = scenario === 'scenario3'
+    ? (() => {
+        const figmaMessage = allMessages.find(m => m.id === 7)
+        if (!figmaMessage) return []
+        // Show the parent message + its thread replies
+        return [figmaMessage, ...(figmaMessage.replies || [])]
+      })()
+    : allMessages.slice(-10)
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -96,10 +106,12 @@ function CollabStage({ link, onClose }) {
             </button>
           </div>
           <div className="collab-stage-messages">
-            {messages.slice(-10).map((msg) => {
+            {messages.map((msg, index) => {
               const isMe = msg.senderId === 'me'
               const sender = isMe ? currentUser : contacts.find(c => c.id === msg.senderId)
               const isActiveFigma = msg.link && msg.link.source === 'figma' && msg.link.url === link.url
+              // First message in scenario3 is the parent, rest are thread replies
+              const isParentMessage = scenario === 'scenario3' && index === 0
 
               return (
                 <div key={msg.id} className={`collab-stage-message ${isMe ? 'collab-stage-message-mine' : ''}`}>
@@ -112,7 +124,7 @@ function CollabStage({ link, onClose }) {
                     {!isMe && <div className="collab-stage-message-sender">{sender.name}</div>}
                     <div className="collab-stage-message-bubble">
                       {msg.text}
-                      {isActiveFigma && (
+                      {isActiveFigma && isParentMessage && (
                         <div className="collab-stage-figma-placeholder">
                           <svg width="14" height="14" viewBox="0 0 38 57">
                             <path fill="#1ABCFE" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 1 1-19 0z"/>
@@ -254,7 +266,7 @@ export default function FigmaWidget({ link, scenario = 'scenario1' }) {
         />
       )}
       {showCollabStage && (
-        <CollabStage link={link} onClose={handleCloseModal} />
+        <CollabStage link={link} onClose={handleCloseModal} scenario={scenario} />
       )}
     </>
   )

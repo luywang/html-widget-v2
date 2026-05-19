@@ -596,7 +596,16 @@ export default function ChatView({
                 </div>
               )}
               {messages.map((msg) => {
-                const isThreaded = isGroup && msg.replies?.length > 0
+                // In Scenario 3: thread message 7 (Sarah's Figma message)
+                // In Scenarios 1 & 2: thread message 8 (Alex's message)
+                const isThreaded = isGroup && msg.replies?.length > 0 && (
+                  (figmaScenario === 'scenario3' && msg.id !== 8) ||
+                  (figmaScenario !== 'scenario3' && msg.id !== 7)
+                )
+                // In Scenario 3, hide message 8 from Northwind Core chat since it's in the thread
+                if (figmaScenario === 'scenario3' && activeContact.id === 21 && msg.id === 8) {
+                  return null
+                }
                 return (
                   <MessageRow
                     key={msg.id}

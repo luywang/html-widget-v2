@@ -587,6 +587,13 @@ export const messagesByContact = {
         embedUrl: 'https://www.figma.com/embed?embed_host=teams&url=https://figma.com/file/nw-onboarding/variant-c',
       },
       time: 'Mon 2:45 PM',
+      replies: [
+        { id: 'g21-7-r1', senderId: 'me', text: 'Perfect. One more ask — can the toast for "session expired" be less alarming? Currently uses the red error treatment; should be more neutral since it\'s expected flow.', time: 'Mon 2:48 PM' },
+        { id: 'g21-7-r2', senderId: 1, text: 'Yes — neutral info treatment. Matches how Stripe does it. I\'ll wire the same component for the re-auth toast too.', time: 'Mon 2:52 PM' },
+        { id: 'g21-7-r3', senderId: 'me', text: 'Color tokens or named treatment?', time: 'Mon 2:54 PM' },
+        { id: 'g21-7-r4', senderId: 1, text: 'Named — `toast/info`. Already in the lib, just wasn\'t wired here.', time: 'Mon 2:56 PM' },
+        { id: 'g21-7-r5', senderId: 1, text: 'Swap is a one-liner. Picking it up after the empty-state work.', time: 'Mon 3:10 PM', reactions: [{ emoji: '👍', count: 1 }] },
+      ],
     },
     {
       id: 8,
