@@ -578,7 +578,7 @@ export const messagesByContact = {
     {
       id: 7,
       senderId: 1,
-      text: 'Design specs with the final copy merged. Variant C empty state + 4 error states.',
+      text: 'Design specs updated. Feedback?',
       link: {
         source: 'figma',
         title: 'Northwind / Onboarding — Variant C + errors',
