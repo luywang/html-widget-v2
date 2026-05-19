@@ -1,0 +1,132 @@
+.figma-widget {
+  margin-top: 8px;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #FFFFFF;
+  max-width: 100%;
+}
+
+.figma-widget-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #FAFAFA;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+.figma-widget-logo {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.figma-widget-logo svg {
+  display: block;
+}
+
+.figma-widget-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.figma-widget-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #242424;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.figma-widget-subtitle {
+  font-size: 12px;
+  color: #616161;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.figma-widget-open-link {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #616161;
+  border-radius: 4px;
+  transition: background 0.1s ease, color 0.1s ease;
+  text-decoration: none;
+}
+
+.figma-widget-open-link:hover {
+  background: #E8E8E8;
+  color: #242424;
+}
+
+.figma-widget-preview {
+  position: relative;
+  width: 100%;
+  /* 16:9 aspect ratio for the preview */
+  padding-bottom: 56.25%;
+  background: #F5F5F5;
+  overflow: hidden;
+}
+
+.figma-widget-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Mock Figma canvas for prototype */
+.figma-widget-mock-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #FAFAFA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.figma-mock-frame {
+  position: relative;
+  width: 90%;
+  height: 85%;
+  background: #FFFFFF;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.figma-mock-shape {
+  position: absolute;
+  border-radius: 4px;
+  background: #E8E8E8;
+  transition: background 0.2s ease;
+}
+
+.figma-mock-rect {
+  /* Default rectangle shape */
+}
+
+.figma-mock-circle {
+  border-radius: 50%;
+}
+
+.figma-mock-primary {
+  background: #6264A7;
+  opacity: 0.15;
+}

@@ -2,6 +2,7 @@
 //   import { Avatar, IconButton, Close, PrivateDisclaimer } from '../common'
 export { default as Avatar } from './Avatar'
 export { default as LinkCard } from './LinkCard'
+export { default as FigmaWidget } from './FigmaWidget'
 export { default as IconButton } from './IconButton'
 export { default as PrivateDisclaimer } from './PrivateDisclaimer'
 export { default as TypingIndicator } from './TypingIndicator'
