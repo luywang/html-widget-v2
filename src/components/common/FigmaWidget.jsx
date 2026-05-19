@@ -12,6 +12,14 @@ function FigmaPreviewContent() {
         <div className="figma-mock-shape figma-mock-rect" style={{ top: '62%', left: '10%', width: '45%', height: '8%' }} />
         <div className="figma-mock-shape figma-mock-rect figma-mock-primary" style={{ top: '75%', left: '10%', width: '25%', height: '12%' }} />
       </div>
+      <a
+        href="https://figma.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="figma-edit-button"
+      >
+        Edit in Figma
+      </a>
     </div>
   )
 }
