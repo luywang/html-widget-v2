@@ -85,6 +85,7 @@ export default function ChatView({
   dynamicSessionMessages,
   navIntent,
   clearNavIntent,
+  figmaScenario = 'scenario1',
 }) {
   const activeContact = contacts.find((c) => c.id === activeChatId)
   const baseMessages = messagesByContact[activeChatId] || []
@@ -560,6 +561,7 @@ export default function ChatView({
                   key={post.id}
                   message={postToMessage(post)}
                   activeContact={activeContact}
+                  figmaScenario={figmaScenario}
                   onOpenThread={() => {
                     if (threadRailOpen && channelThreadPostId === post.id) {
                       setThreadRailOpen(false)
@@ -600,6 +602,7 @@ export default function ChatView({
                     key={msg.id}
                     message={isThreaded ? postToMessage(msg) : msg}
                     activeContact={activeContact}
+                    figmaScenario={figmaScenario}
                     onOpenThread={isThreaded ? () => {
                       if (threadRailOpen && channelThreadPostId === msg.id) {
                         setThreadRailOpen(false)

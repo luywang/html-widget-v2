@@ -227,3 +227,30 @@
   overflow: hidden;
   background: #FAFAFA;
 }
+
+/* Collab Stage side-by-side layout for Scenario 2 */
+.figma-modal-collab-stage {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.figma-modal-collab-stage .figma-modal-content {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  max-height: none;
+  width: 50vw;
+  max-width: none;
+  border-radius: 0;
+  margin: 0;
+  animation: slideInFromRight 0.3s ease-out;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

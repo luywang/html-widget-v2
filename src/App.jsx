@@ -25,6 +25,8 @@ export default function App() {
   // hides it for the current session. Swap to localStorage gating later if a
   // real first-run-only behavior is needed.
   const [showFre, setShowFre] = useState(true)
+  // Figma scenario selection: 'scenario1' = edit outside Teams, 'scenario2' = edit in Teams Collab Stage
+  const [figmaScenario, setFigmaScenario] = useState('scenario1')
 
   const dismissFre = useCallback(() => setShowFre(false), [])
 
@@ -111,60 +113,55 @@ export default function App() {
           dynamicSessionMessages={dynamicSessionMessages}
           navIntent={navIntent}
           clearNavIntent={clearNavIntent}
+          figmaScenario={figmaScenario}
         />
       </div>
       {showFre && (
         <FreModal
-          title="Feature name"
-          subtitle="One-sentence pitch for what this feature is and why it matters to the audience watching the demo."
+          title="Figma HTML Widget Demo"
+          subtitle="View and edit Figma designs directly in Teams chat messages."
           onDismiss={dismissFre}
         >
-          <h3 className="fre-section-title">Today</h3>
+          <div style={{ marginBottom: '24px' }}>
+            <label htmlFor="scenario-select" style={{ display: 'block', fontWeight: 600, marginBottom: '8px', fontSize: '14px' }}>
+              Select Scenario:
+            </label>
+            <select
+              id="scenario-select"
+              value={figmaScenario}
+              onChange={(e) => setFigmaScenario(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '8px 12px',
+                fontSize: '14px',
+                border: '1px solid #D0D0D0',
+                borderRadius: '4px',
+                backgroundColor: '#FFFFFF',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="scenario1">Scenario 1: Edit Figma outside of Teams (most common in MCP apps)</option>
+              <option value="scenario2">Scenario 2: Edit Figma in Teams Collab Stage side-by-side</option>
+            </select>
+          </div>
+
+          <h3 className="fre-section-title">About This Demo</h3>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Describe
-            the current experience the demo audience is familiar with — the
-            workflow, the surfaces, the people involved. Sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua, ut enim ad minim
-            veniam, quis nostrud exercitation.
+            This prototype demonstrates Figma HTML widgets embedded in Teams chat messages.
+            Click the expand button on any Figma widget to view the design in a modal, then
+            click "Edit in Figma" to open the design for editing.
           </p>
 
-          <h3 className="fre-section-title">Problem</h3>
+          <h3 className="fre-section-title">Scenario 1: Edit Outside Teams</h3>
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore. Name the friction sharply: what breaks down today,
-            who feels it, and how often. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum, consectetur adipiscing elit sed do eiusmod.
+            Opens figma.com in a new browser tab. This is the most common pattern in MCP apps
+            where external tools are accessed via browser windows.
           </p>
 
-          <h3 className="fre-section-title">Solution</h3>
+          <h3 className="fre-section-title">Scenario 2: Edit in Collab Stage</h3>
           <p>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat. Walk through the new
-            feature you're showing — the surface, the interaction, the moment
-            of delight. Duis aute irure dolor in reprehenderit in voluptate
-            velit esse cillum dolore eu fugiat nulla pariatur.
-          </p>
-          <p>
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-            officia deserunt mollit anim id est laborum. If the feature is
-            best understood through a sequence, list the key beats here so the
-            audience knows what to look for as the demo plays.
-          </p>
-
-          <h3 className="fre-section-title">What this Unlocks</h3>
-          <p>
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-            accusantium doloremque laudantium. Spell out the downstream wins —
-            what gets faster, easier, or newly possible because of this
-            feature. Totam rem aperiam, eaque ipsa quae ab illo inventore
-            veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-          </p>
-          <p>
-            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-            aut fugit, sed quia consequuntur magni dolores eos qui ratione
-            voluptatem sequi nesciunt. Close with the audience-specific
-            takeaway — what the viewer should remember after the demo ends.
+            Opens Figma in Teams Collab Stage, allowing side-by-side editing within Teams.
+            The Figma editor appears alongside the chat, keeping context visible.
           </p>
         </FreModal>
       )}

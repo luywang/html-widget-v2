@@ -169,7 +169,7 @@ function ThreadReplyBadge({ reply, onClick }) {
   )
 }
 
-export default function MessageRow({ message, activeContact, onOpenThread }) {
+export default function MessageRow({ message, activeContact, onOpenThread, figmaScenario = 'scenario1' }) {
   const isMe = message.senderId === 'me'
   const isMultiParty = activeContact.isGroup || activeContact.isChannel
   const sender = isMe
@@ -221,7 +221,7 @@ export default function MessageRow({ message, activeContact, onOpenThread }) {
             : message.text}
           {message.link && (
             message.link.source === 'figma' ? (
-              <FigmaWidget link={message.link} />
+              <FigmaWidget link={message.link} scenario={figmaScenario} />
             ) : (
               <LinkCard link={message.link} />
             )

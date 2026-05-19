@@ -2,7 +2,15 @@ import { useState, useEffect } from 'react'
 import './FigmaWidget.css'
 import { Close } from './Icon'
 
-function FigmaPreviewContent() {
+function FigmaPreviewContent({ scenario, onEditClick }) {
+  const handleEditClick = (e) => {
+    if (scenario === 'scenario2') {
+      e.preventDefault()
+      if (onEditClick) onEditClick()
+    }
+    // For scenario1, let the link open naturally
+  }
+
   return (
     <div className="figma-widget-mock-canvas">
       <div className="figma-mock-frame">
@@ -14,8 +22,9 @@ function FigmaPreviewContent() {
       </div>
       <a
         href="https://figma.com"
-        target="_blank"
-        rel="noopener noreferrer"
+        target={scenario === 'scenario1' ? '_blank' : undefined}
+        rel={scenario === 'scenario1' ? 'noopener noreferrer' : undefined}
+        onClick={handleEditClick}
         className="figma-edit-button"
       >
         Edit in Figma
@@ -24,17 +33,29 @@ function FigmaPreviewContent() {
   )
 }
 
-function FigmaModal({ link, onClose }) {
+function FigmaModal({ link, onClose, scenario }) {
+  const [showCollabStage, setShowCollabStage] = useState(false)
+
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key === 'Escape') {
+        if (showCollabStage && scenario === 'scenario2') {
+          setShowCollabStage(false)
+        } else {
+          onClose()
+        }
+      }
     }
     document.addEventListener('keydown', handleEscape)
     return () => document.removeEventListener('keydown', handleEscape)
-  }, [onClose])
+  }, [onClose, showCollabStage, scenario])
+
+  const modalClass = scenario === 'scenario2' && showCollabStage
+    ? 'figma-modal-overlay figma-modal-collab-stage'
+    : 'figma-modal-overlay'
 
   return (
-    <div className="figma-modal-overlay" onClick={onClose}>
+    <div className={modalClass} onClick={onClose}>
       <div className="figma-modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="figma-modal-header">
           <div className="figma-modal-header-left">
@@ -62,14 +83,17 @@ function FigmaModal({ link, onClose }) {
           </button>
         </div>
         <div className="figma-modal-preview">
-          <FigmaPreviewContent />
+          <FigmaPreviewContent
+            scenario={scenario}
+            onEditClick={() => setShowCollabStage(true)}
+          />
         </div>
       </div>
     </div>
   )
 }
 
-export default function FigmaWidget({ link }) {
+export default function FigmaWidget({ link, scenario = 'scenario1' }) {
   // For prototype purposes, show a styled placeholder instead of loading real Figma embeds.
   // In a production implementation, use real Figma embed URLs:
   // https://www.figma.com/embed?embed_host=teams&url=<encoded-file-url>
@@ -107,10 +131,10 @@ export default function FigmaWidget({ link }) {
         </div>
         <div className="figma-widget-preview">
           {/* Mock Figma canvas for prototype - replace with real iframe for production */}
-          <FigmaPreviewContent />
+          <FigmaPreviewContent scenario={scenario} />
         </div>
       </div>
-      {isModalOpen && <FigmaModal link={link} onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && <FigmaModal link={link} onClose={() => setIsModalOpen(false)} scenario={scenario} />}
     </>
   )
 }
