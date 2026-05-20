@@ -97,12 +97,14 @@ export default function ChannelThreadRail({ posts, initialPostId, activeContact,
               <MessageRow
                 message={{ ...post, threadReply: undefined }}
                 activeContact={activeContact}
+                inThreadRail={true}
               />
               {allReplies.map((reply) => (
                 <MessageRow
                   key={reply.id}
                   message={reply}
                   activeContact={activeContact}
+                  inThreadRail={true}
                 />
               ))}
               <div ref={endRef} />

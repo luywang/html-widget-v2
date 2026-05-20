@@ -4,7 +4,7 @@ import { Close } from './Icon'
 import { messagesByContact, contacts, currentUser } from '../../data'
 import { Avatar, DemoArrow } from './index'
 
-function FigmaPreviewContent({ scenario, onEditClick, showEditArrow, onEditArrowDismiss }) {
+function FigmaPreviewContent({ scenario, onEditClick, showEditArrow, onEditArrowDismiss, inThreadRail }) {
   const handleEditClick = (e) => {
     onEditArrowDismiss()
     if (scenario === 'scenario2' || scenario === 'scenario3') {
@@ -23,7 +23,7 @@ function FigmaPreviewContent({ scenario, onEditClick, showEditArrow, onEditArrow
         <div className="figma-mock-shape figma-mock-rect" style={{ top: '62%', left: '10%', width: '45%', height: '8%' }} />
         <div className="figma-mock-shape figma-mock-rect figma-mock-primary" style={{ top: '75%', left: '10%', width: '25%', height: '12%' }} />
       </div>
-      {showEditArrow && (
+      {showEditArrow && !inThreadRail && (
         <div className="figma-edit-arrow" style={{ pointerEvents: 'none' }}>
           <DemoArrow direction="left" size={24} />
         </div>
@@ -214,6 +214,7 @@ function FigmaModal({ link, onClose, scenario, onShowCollabStage, showEditArrow,
             onEditClick={onShowCollabStage}
             showEditArrow={showEditArrow}
             onEditArrowDismiss={onEditArrowDismiss}
+            inThreadRail={false}
           />
         </div>
       </div>
@@ -221,7 +222,7 @@ function FigmaModal({ link, onClose, scenario, onShowCollabStage, showEditArrow,
   )
 }
 
-export default function FigmaWidget({ link, scenario = 'scenario1' }) {
+export default function FigmaWidget({ link, scenario = 'scenario1', inThreadRail = false }) {
   // For prototype purposes, show a styled placeholder instead of loading real Figma embeds.
   // In a production implementation, use real Figma embed URLs:
   // https://www.figma.com/embed?embed_host=teams&url=<encoded-file-url>
@@ -274,7 +275,7 @@ export default function FigmaWidget({ link, scenario = 'scenario1' }) {
             <div className="figma-widget-subtitle">{link.subtitle}</div>
           </div>
           <div style={{ position: 'relative' }}>
-            {showExpandArrow && scenario === 'scenario1' && (
+            {showExpandArrow && scenario === 'scenario1' && !inThreadRail && (
               <div className="figma-expand-arrow" style={{ pointerEvents: 'none' }}>
                 <DemoArrow direction="left" size={20} />
               </div>
@@ -299,6 +300,7 @@ export default function FigmaWidget({ link, scenario = 'scenario1' }) {
             onEditClick={handleShowCollabStage}
             showEditArrow={showEditArrow}
             onEditArrowDismiss={() => setShowEditArrow(false)}
+            inThreadRail={inThreadRail}
           />
         </div>
       </div>
