@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import './FigmaWidget.css'
 import { Close } from './Icon'
 import { messagesByContact, contacts, currentUser } from '../../data'
-import { Avatar } from './index'
+import { Avatar, DemoArrow } from './index'
 
-function FigmaPreviewContent({ scenario, onEditClick }) {
+function FigmaPreviewContent({ scenario, onEditClick, showEditArrow, onEditArrowDismiss }) {
   const handleEditClick = (e) => {
+    onEditArrowDismiss()
     if (scenario === 'scenario2' || scenario === 'scenario3') {
       e.preventDefault()
       if (onEditClick) onEditClick()
@@ -22,6 +23,11 @@ function FigmaPreviewContent({ scenario, onEditClick }) {
         <div className="figma-mock-shape figma-mock-rect" style={{ top: '62%', left: '10%', width: '45%', height: '8%' }} />
         <div className="figma-mock-shape figma-mock-rect figma-mock-primary" style={{ top: '75%', left: '10%', width: '25%', height: '12%' }} />
       </div>
+      {showEditArrow && (
+        <div className="figma-edit-arrow" style={{ pointerEvents: 'none' }}>
+          <DemoArrow direction="left" size={24} />
+        </div>
+      )}
       <a
         href="https://figma.com"
         target={scenario === 'scenario1' ? '_blank' : undefined}
@@ -165,7 +171,7 @@ function CollabStage({ link, onClose, scenario }) {
   )
 }
 
-function FigmaModal({ link, onClose, scenario, onShowCollabStage }) {
+function FigmaModal({ link, onClose, scenario, onShowCollabStage, showEditArrow, onEditArrowDismiss }) {
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') onClose()
@@ -206,6 +212,8 @@ function FigmaModal({ link, onClose, scenario, onShowCollabStage }) {
           <FigmaPreviewContent
             scenario={scenario}
             onEditClick={onShowCollabStage}
+            showEditArrow={showEditArrow}
+            onEditArrowDismiss={onEditArrowDismiss}
           />
         </div>
       </div>
@@ -220,15 +228,32 @@ export default function FigmaWidget({ link, scenario = 'scenario1' }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showCollabStage, setShowCollabStage] = useState(false)
+  const [showExpandArrow, setShowExpandArrow] = useState(scenario === 'scenario1')
+  // In Scenario 1: edit arrow shows after modal dismissed
+  // In Scenarios 2 & 3: edit arrow shows immediately (no expand step)
+  const [showEditArrow, setShowEditArrow] = useState(scenario !== 'scenario1')
+
+  // Reset arrow visibility when scenario changes
+  useEffect(() => {
+    setShowExpandArrow(scenario === 'scenario1')
+    setShowEditArrow(scenario !== 'scenario1')
+  }, [scenario])
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setShowCollabStage(false)
+    // Show edit arrow after modal is dismissed
+    setShowEditArrow(true)
   }
 
   const handleShowCollabStage = () => {
     setIsModalOpen(false)
     setShowCollabStage(true)
+  }
+
+  const handleExpandClick = () => {
+    setShowExpandArrow(false)
+    setIsModalOpen(true)
   }
 
   return (
@@ -248,21 +273,33 @@ export default function FigmaWidget({ link, scenario = 'scenario1' }) {
             <div className="figma-widget-name">{link.title}</div>
             <div className="figma-widget-subtitle">{link.subtitle}</div>
           </div>
-          <button
-            type="button"
-            className="figma-widget-expand-btn"
-            onClick={() => setIsModalOpen(true)}
-            aria-label="Expand"
-            title="Expand"
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M10 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V2.707l-3.146 3.147a.5.5 0 0 1-.708-.708L13.293 2H10.5a.5.5 0 0 1-.5-.5zM1.5 10a.5.5 0 0 1 .5.5v2.793l3.146-3.147a.5.5 0 0 1 .708.708L2.707 14H5.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5z"/>
-            </svg>
-          </button>
+          <div style={{ position: 'relative' }}>
+            {showExpandArrow && scenario === 'scenario1' && (
+              <div className="figma-expand-arrow" style={{ pointerEvents: 'none' }}>
+                <DemoArrow direction="left" size={20} />
+              </div>
+            )}
+            <button
+              type="button"
+              className="figma-widget-expand-btn"
+              onClick={handleExpandClick}
+              aria-label="Expand"
+              title="Expand"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M10 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V2.707l-3.146 3.147a.5.5 0 0 1-.708-.708L13.293 2H10.5a.5.5 0 0 1-.5-.5zM1.5 10a.5.5 0 0 1 .5.5v2.793l3.146-3.147a.5.5 0 0 1 .708.708L2.707 14H5.5a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5v-4a.5.5 0 0 1 .5-.5z"/>
+              </svg>
+            </button>
+          </div>
         </div>
         <div className="figma-widget-preview">
           {/* Mock Figma canvas for prototype - replace with real iframe for production */}
-          <FigmaPreviewContent scenario={scenario} onEditClick={handleShowCollabStage} />
+          <FigmaPreviewContent
+            scenario={scenario}
+            onEditClick={handleShowCollabStage}
+            showEditArrow={showEditArrow}
+            onEditArrowDismiss={() => setShowEditArrow(false)}
+          />
         </div>
       </div>
       {isModalOpen && (
@@ -271,6 +308,8 @@ export default function FigmaWidget({ link, scenario = 'scenario1' }) {
           onClose={handleCloseModal}
           scenario={scenario}
           onShowCollabStage={handleShowCollabStage}
+          showEditArrow={showEditArrow}
+          onEditArrowDismiss={() => setShowEditArrow(false)}
         />
       )}
       {showCollabStage && (
