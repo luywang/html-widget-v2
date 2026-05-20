@@ -612,6 +612,10 @@ export default function ChatView({
                   if (msg.id === 9) {
                     return null
                   }
+                  // Hide last 4 messages (ids 12-15) in all scenarios
+                  if (msg.id >= 12 && msg.id <= 15) {
+                    return null
+                  }
                 }
                 return (
                   <MessageRow
